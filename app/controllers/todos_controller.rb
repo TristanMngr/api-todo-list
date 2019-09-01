@@ -1,10 +1,9 @@
-module V1
-  class TodosController < ApplicationController
+
+class TodosController < ApplicationController
   before_action :set_todo, only: [:show, :update, :destroy]
 
   # GET /todos
   def index
-    # get current user todos
     @todos = current_user.todos.paginate(page: params[:page], per_page: 20)
     json_response(@todos)
   end
@@ -16,7 +15,6 @@ module V1
 
   # POST /todos
   def create
-    # create todos belonging to current user
     @todo = current_user.todos.create!(todo_params)
     json_response(@todo, :created)
   end
@@ -35,7 +33,6 @@ module V1
 
   private
 
-  # remove `created_by` from list of permitted parameters
   def todo_params
     params.permit(:title)
   end
@@ -43,5 +40,5 @@ module V1
   def set_todo
     @todo = Todo.find(params[:id])
   end
-  end
 end
+
